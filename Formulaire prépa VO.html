@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Fin de préparation VO — Groupe Tressol-Chabrier</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #F5F6F8;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 0 0 4rem;
+    }
+
+    .header {
+      background: #185FA5;
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; color: #fff; letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+    .header-text { flex: 1; }
+    .header-text h1 { font-size: 16px; font-weight: 600; color: #fff; }
+    .header-text p { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 1px; }
+
+    .form-body { max-width: 520px; margin: 0 auto; padding: 1.25rem 1rem; }
+
+    .auto-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+    .auto-chip {
+      background: #fff;
+      border: 1px solid #E2E6ED;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .auto-chip i { font-size: 17px; color: #185FA5; margin-top: 1px; flex-shrink: 0; }
+    .chip-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .chip-value { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.3; min-height: 16px; }
+    .chip-sub { font-size: 10px; color: #185FA5; margin-top: 2px; }
+    .chip-sub.warn { color: #BA7517; }
+    .chip-sub.err { color: #A32D2D; }
+    .chip-sub.ok { color: #3B6D11; }
+
+    .section-title {
+      font-size: 11px; font-weight: 600; color: #185FA5;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin: 1.25rem 0 0.6rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .section-title i { font-size: 15px; }
+
+    .card {
+      background: #fff;
+      border: 1px solid #E2E6ED;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .field label {
+      display: block;
+      font-size: 11px; font-weight: 600; color: #555;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+    .field label .req { color: #E24B4A; margin-left: 2px; }
+    .field input {
+      width: 100%; height: 44px;
+      padding: 0 12px;
+      background: #F9FAFB;
+      border: 1px solid #D8DCE6;
+      border-radius: 8px;
+      font-size: 15px; font-weight: 600;
+      color: #1a1a1a;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    .field input:focus {
+      border-color: #185FA5;
+      box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+      background: #fff;
+    }
+    .field input::placeholder {
+      color: #B0B5C0;
+      font-weight: 400;
+      font-size: 13px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .field .hint { font-size: 11px; color: #999; margin-top: 4px; }
+
+    .submit-btn {
+      width: 100%;
+      height: 52px;
+      background: #185FA5;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 16px; font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 1.5rem;
+      transition: background 0.15s, transform 0.1s;
+      -webkit-appearance: none;
+    }
+    .submit-btn:hover { background: #0C447C; }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .submit-btn i { font-size: 20px; }
+
+    .spinner { display: none; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      background: #27500A;
+      color: #fff;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px; font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      z-index: 999;
+      text-align: center;
+      max-width: 90vw;
+      animation: slideUp 0.25s ease;
+    }
+    .toast.error { background: #791F1F; }
+    @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+    .disclaimer {
+      font-size: 10px; color: #aaa;
+      text-align: center;
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 400px) {
+      .auto-row { grid-template-columns: 1fr; }
+      .row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">TC</div>
+  <div class="header-text">
+    <h1>Fin de préparation VO</h1>
+    <p>Groupe Tressol-Chabrier</p>
+  </div>
+</div>
+
+<div class="form-body">
+
+  <div class="section-title"><i class="ti ti-bolt"></i> Données automatiques</div>
+  <div class="auto-row">
+    <div class="auto-chip">
+      <i class="ti ti-calendar-event"></i>
+      <div>
+        <div class="chip-label">Date &amp; heure</div>
+        <div class="chip-value" id="dt-display">—</div>
+      </div>
+    </div>
+    <div class="auto-chip">
+      <i class="ti ti-map-pin"></i>
+      <div>
+        <div class="chip-label">Position GPS</div>
+        <div class="chip-value" id="gps-display">—</div>
+        <div class="chip-sub" id="gps-status">Localisation…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><i class="ti ti-building-store"></i> Concession propriétaire</div>
+  <div class="card">
+    <div class="row-2">
+      <div class="field">
+        <label>Concession <span class="req">*</span></label>
+        <input type="text" id="concession" placeholder="Ex : Peugeot" maxlength="80" autocomplete="off" inputmode="text">
+      </div>
+      <div class="field">
+        <label>Ville <span class="req">*</span></label>
+        <input type="text" id="ville" placeholder="Ex : Carcassonne" maxlength="80" autocomplete="off" inputmode="text">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><i class="ti ti-car"></i> Véhicule</div>
+  <div class="card">
+    <div class="row-2">
+      <div class="field">
+        <label>Marque <span class="req">*</span></label>
+        <input type="text" id="marque" placeholder="Ex : Peugeot" maxlength="50" autocomplete="off" inputmode="text">
+      </div>
+      <div class="field">
+        <label>Modèle <span class="req">*</span></label>
+        <input type="text" id="modele" placeholder="Ex : 308 SW" maxlength="50" autocomplete="off" inputmode="text">
+      </div>
+    </div>
+    <div class="field">
+      <label>Immatriculation <span class="req">*</span></label>
+      <input type="text" id="immat" placeholder="Ex : AB-123-CD" maxlength="10" autocomplete="off" inputmode="text">
+      <div class="hint">Format : AB-123-CD</div>
+    </div>
+  </div>
+
+  <div class="section-title"><i class="ti ti-building-warehouse"></i> Stockage &amp; saisie</div>
+  <div class="card">
+    <div class="field">
+      <label>Lieu de stockage <span class="req">*</span></label>
+      <input type="text" id="lieu" placeholder="Ex : Parc VO Carcassonne" maxlength="100" autocomplete="off" inputmode="text">
+    </div>
+    <div class="field">
+      <label>Nom du préparateur <span class="req">*</span></label>
+      <input type="text" id="nom" placeholder="Ex : Dupont Jean" maxlength="100" autocomplete="off" inputmode="text">
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+    <i class="ti ti-device-floppy" id="btn-icon"></i>
+    <span id="btn-label">Enregistrer le véhicule</span>
+    <div class="spinner" id="btn-spinner"></div>
+  </button>
+
+  <p class="disclaimer">Ce document est une base de travail interne au Groupe Tressol-Chabrier.<br>Données à usage opérationnel uniquement — ne pas diffuser hors du groupe.</p>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxA7bza4A7iEpbQC_gW_U3cvK90ugwyvqwM3kQka6I3V66uxmrgvR5DFouUPW1YUG-OOw/exec";
+
+  let lat = null, lng = null, gpsAccuracy = null;
+
+  function padZ(n){ return String(n).padStart(2,'0'); }
+
+  function updateClock(){
+    const now = new Date();
+    const d = padZ(now.getDate())+'/'+padZ(now.getMonth()+1)+'/'+now.getFullYear();
+    const t = padZ(now.getHours())+':'+padZ(now.getMinutes())+':'+padZ(now.getSeconds());
+    document.getElementById('dt-display').textContent = d + ' ' + t;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        lat = pos.coords.latitude.toFixed(6);
+        lng = pos.coords.longitude.toFixed(6);
+        gpsAccuracy = Math.round(pos.coords.accuracy);
+        document.getElementById('gps-display').textContent = lat + ', ' + lng;
+        var s = document.getElementById('gps-status');
+        s.textContent = '± ' + gpsAccuracy + ' m';
+        s.className = 'chip-sub ' + (gpsAccuracy < 50 ? 'ok' : gpsAccuracy < 150 ? 'warn' : 'err');
+      },
+      function(){
+        document.getElementById('gps-display').textContent = 'Non disponible';
+        var s = document.getElementById('gps-status');
+        s.textContent = 'Accès refusé';
+        s.className = 'chip-sub err';
+      },
+      { enableHighAccuracy: true, timeout: 12000 }
+    );
+  } else {
+    document.getElementById('gps-display').textContent = 'Non supporté';
+    document.getElementById('gps-status').textContent = '';
+  }
+
+  ['concession','ville','marque','modele','immat','lieu','nom'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){
+      this.value = this.value.toUpperCase();
+    });
+  });
+
+  function showToast(msg, isError){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '');
+    t.style.display = 'block';
+    setTimeout(function(){ t.style.display = 'none'; }, isError ? 4000 : 3000);
+  }
+
+  function setLoading(on){
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = on;
+    document.getElementById('btn-icon').style.display = on ? 'none' : '';
+    document.getElementById('btn-label').textContent = on ? 'Envoi en cours…' : 'Enregistrer le véhicule';
+    document.getElementById('btn-spinner').style.display = on ? 'block' : 'none';
+  }
+
+  function submitForm(){
+    var ids = ['concession','ville','marque','modele','immat','lieu','nom'];
+    var labels = {concession:'Concession',ville:'Ville',marque:'Marque',modele:'Modèle',immat:'Immatriculation',lieu:'Lieu de stockage',nom:'Nom du préparateur'};
+    var fields = {};
+    for(var i=0; i<ids.length; i++){
+      var v = document.getElementById(ids[i]).value.trim();
+      if(!v){ alert('Champ obligatoire manquant : ' + labels[ids[i]]); document.getElementById(ids[i]).focus(); return; }
+      fields[ids[i]] = v;
+    }
+    var now = new Date();
+    var payload = {
+      date: padZ(now.getDate())+'/'+padZ(now.getMonth()+1)+'/'+now.getFullYear(),
+      heure: padZ(now.getHours())+':'+padZ(now.getMinutes())+':'+padZ(now.getSeconds()),
+      latitude: lat || '',
+      longitude: lng || '',
+      gps_precision: gpsAccuracy ? gpsAccuracy+'m' : 'N/A',
+      concession: fields.concession,
+      ville: fields.ville,
+      marque: fields.marque,
+      modele: fields.modele,
+      immat: fields.immat,
+      lieu: fields.lieu,
+      nom: fields.nom
+    };
+
+    setLoading(true);
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function(){
+      setLoading(false);
+      showToast('✓ ' + fields.immat + ' — ' + fields.marque + ' ' + fields.modele + ' enregistré !', false);
+      ids.forEach(function(id){ document.getElementById(id).value = ''; });
+    })
+    .catch(function(){
+      setLoading(false);
+      showToast('Erreur réseau — réessaie ou vérifie ta connexion.', true);
+    });
+  }
+</script>
+
+</body>
+</html>
